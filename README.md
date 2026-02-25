@@ -7,19 +7,6 @@ A professional, open-source CI/CD template for STM32 firmware built with **GitHu
 **Target:** STM32F446RE (Nucleo-F446RE, Cortex-M4F)
 **Sample app:** Temperature sensor logger — reads the on-chip ADC temperature sensor and outputs readings over UART.
 
----
-
-## CI/CD Pipeline
-
-```
-  git push / PR       Docker Image         Unit Tests          ARM Build          Release
- ┌──────────┐      ┌──────────────┐    ┌──────────────┐   ┌──────────────┐   ┌────────────┐
- │  GitHub   │─────▶│  Build &     │───▶│   Ceedling   │──▶│  ARM GCC +   │──▶│  GitHub    │
- │  Event    │      │  Push to     │    │  Unity/CMock │   │  CMake/Ninja │   │  Release   │
- └──────────┘      │  GHCR        │    └──────────────┘   └──────────────┘   └────────────┘
-                    └──────────────┘     runs in container  runs in container  .elf .hex .bin
-                     cached layers       (no install needed) (no install needed) (on v* tags)
-```
 
 ---
 
