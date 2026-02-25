@@ -137,4 +137,4 @@ STM32_Programmer_CLI -c port=SWD -w build/stm32_temp_logger.bin 0x08000000 -v -r
 
 MIT — see [LICENSE](LICENSE).
 
-Built with care by [EmbeddedOps](https://github.com/EmbeddedOps).
+Built with care by [Todd Riffel](https://toddriffel.com) and [EmbeddedOps](https://github.com/EmbeddedOps).
