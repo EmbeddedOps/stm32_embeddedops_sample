@@ -1,0 +1,24 @@
+services:
+  build:
+    build: .
+    volumes:
+      - .:/workspace
+    command: >
+      bash -c "cmake -B build/release -G Ninja
+      -DCMAKE_TOOLCHAIN_FILE=cmake/arm-none-eabi-gcc.cmake
+      -DCMAKE_BUILD_TYPE=Release
+      && cmake --build build/release"
+
+  test:
+    build: .
+    volumes:
+      - .:/workspace
+    command: ceedling test:all
+
+  shell:
+    build: .
+    volumes:
+      - .:/workspace
+    stdin_open: true
+    tty: true
+    command: bash

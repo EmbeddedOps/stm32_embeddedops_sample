@@ -1,0 +1,58 @@
+---
+:project:
+  :use_exceptions: FALSE
+  :use_test_preprocessor: :all
+  :use_auxiliary_dependencies: TRUE
+  :build_root: build_test
+  :test_file_prefix: test_
+
+:environment: []
+
+:extension:
+  :executable: .out
+
+:paths:
+  :test:
+    - test/**
+  :source:
+    - App/Src/**
+  :include:
+    - App/Inc/**
+  :support:
+    - test/support/**
+
+:defines:
+  :common: &common_defines
+    - STM32F446xx
+    - USE_HAL_DRIVER
+    - UNIT_TEST
+  :test:
+    - *common_defines
+  :test_preprocess:
+    - *common_defines
+
+:cmock:
+  :mock_prefix: mock_
+  :when_no_prototypes: :warn
+  :enforce_strict_ordering: TRUE
+  :plugins:
+    - :ignore
+    - :callback
+    - :expect_any_args
+    - :return_thru_ptr
+  :treat_as:
+    uint8:    HEX8
+    uint16:   HEX16
+    uint32:   UINT32
+    int8:     INT8
+    bool:     UINT8
+
+:unity:
+  :defines:
+    - UNITY_INCLUDE_FLOAT
+    - UNITY_FLOAT_PRECISION=0.001f
+
+:plugins:
+  :enabled:
+    - report_tests_pretty_stdout
+    - gcov
