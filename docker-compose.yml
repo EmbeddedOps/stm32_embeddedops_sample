@@ -1,5 +1,6 @@
 services:
   build:
+    image: ghcr.io/embeddedops/stm32_embeddedops_sample:latest
     build: .
     volumes:
       - .:/workspace
@@ -10,12 +11,14 @@ services:
       && cmake --build build/release"
 
   test:
+    image: ghcr.io/embeddedops/stm32_embeddedops_sample:latest
     build: .
     volumes:
       - .:/workspace
     command: ceedling test:all
 
   shell:
+    image: ghcr.io/embeddedops/stm32_embeddedops_sample:latest
     build: .
     volumes:
       - .:/workspace

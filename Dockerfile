@@ -1,5 +1,9 @@
 FROM ubuntu:24.04
 
+LABEL org.opencontainers.image.source="https://github.com/EmbeddedOps/stm32_embeddedops_sample"
+LABEL org.opencontainers.image.description="STM32 firmware build environment (ARM GCC, CMake, Ceedling)"
+LABEL org.opencontainers.image.licenses="MIT"
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

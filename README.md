@@ -12,13 +12,13 @@ A professional, open-source CI/CD template for STM32 firmware built with **GitHu
 ## CI/CD Pipeline
 
 ```
-  git push / PR          Unit Tests            ARM Build            Release
- ┌──────────┐       ┌──────────────┐      ┌──────────────┐     ┌────────────┐
- │  GitHub  │─────> │   Ceedling   │────> │  ARM GCC +   │────>│  GitHub    │
- │  Event   │       │  Unity/CMock │      │  CMake/Ninja │     │  Release   │
- └──────────┘       └──────────────┘      └──────────────┘     └────────────┘
-                     Host GCC tests        Cross-compile        .elf .hex .bin
-                     (no HW needed)        for Cortex-M4        (on v* tags)
+  git push / PR       Docker Image         Unit Tests          ARM Build          Release
+ ┌──────────┐      ┌──────────────┐    ┌──────────────┐   ┌──────────────┐   ┌────────────┐
+ │  GitHub   │─────▶│  Build &     │───▶│   Ceedling   │──▶│  ARM GCC +   │──▶│  GitHub    │
+ │  Event    │      │  Push to     │    │  Unity/CMock │   │  CMake/Ninja │   │  Release   │
+ └──────────┘      │  GHCR        │    └──────────────┘   └──────────────┘   └────────────┘
+                    └──────────────┘     runs in container  runs in container  .elf .hex .bin
+                     cached layers       (no install needed) (no install needed) (on v* tags)
 ```
 
 ---
@@ -118,6 +118,22 @@ openocd -f interface/stlink.cfg -f target/stm32f4x.cfg \
 # Or using STM32CubeProgrammer
 STM32_Programmer_CLI -c port=SWD -w build/stm32_temp_logger.bin 0x08000000 -v -rst
 ```
+
+---
+
+## CI/CD Pipeline Explained
+
+| Job | Trigger | What it does |
+|---|---|---|
+| **docker** | Every push & PR | Builds the Docker image and pushes to `ghcr.io/embeddedops/stm32_embeddedops_sample` (cached layers via GHA cache) |
+| **test** | After docker | Runs `ceedling test:all` inside the container — no tool installation needed |
+| **build** | After test | Checks out with submodules, runs CMake + Ninja inside the container — no tool installation needed |
+| **release** | `v*` tags only | Downloads build artifacts, creates GitHub Release with `.elf`, `.hex`, `.bin` |
+
+> **Pre-built image:** You can pull the CI image directly:
+> ```bash
+> docker pull ghcr.io/embeddedops/stm32_embeddedops_sample:latest
+> ```
 
 ---
 
