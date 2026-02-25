@@ -121,15 +121,6 @@ STM32_Programmer_CLI -c port=SWD -w build/stm32_temp_logger.bin 0x08000000 -v -r
 
 ---
 
-## CI/CD Pipeline Explained
-
-| Job         | Trigger          | What it does                                                                  |
-| **test**    | Every push & PR  | Installs Ruby + Ceedling, runs `ceedling test:all` on host GCC                |
-| **build**   | After tests pass | Checks out with submodules, installs ARM GCC, builds firmware with CMake      |
-| **release** | `v*` tags only   | Downloads build artifacts, creates GitHub Release with `.elf`, `.hex`, `.bin` |
-
----
-
 ## Adapting This Template
 
 1. **Change MCU:** Update `STM32F446xx` define, linker script memory sizes, startup file, and clock config
