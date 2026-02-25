@@ -5,6 +5,7 @@ LABEL org.opencontainers.image.description="STM32 firmware build environment (AR
 LABEL org.opencontainers.image.licenses="MIT"
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=C.UTF-8
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
