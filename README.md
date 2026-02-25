@@ -14,8 +14,8 @@ A professional, open-source CI/CD template for STM32 firmware built with **GitHu
 ```
   git push / PR          Unit Tests            ARM Build            Release
  ┌──────────┐       ┌──────────────┐      ┌──────────────┐     ┌────────────┐
- │  GitHub   │──────▶│   Ceedling   │─────▶│  ARM GCC +   │────▶│  GitHub    │
- │  Event    │       │  Unity/CMock │      │  CMake/Ninja │     │  Release   │
+ │  GitHub  │─────> │   Ceedling   │────> │  ARM GCC +   │────>│  GitHub    │
+ │  Event   │       │  Unity/CMock │      │  CMake/Ninja │     │  Release   │
  └──────────┘       └──────────────┘      └──────────────┘     └────────────┘
                      Host GCC tests        Cross-compile        .elf .hex .bin
                      (no HW needed)        for Cortex-M4        (on v* tags)
@@ -123,11 +123,10 @@ STM32_Programmer_CLI -c port=SWD -w build/stm32_temp_logger.bin 0x08000000 -v -r
 
 ## CI/CD Pipeline Explained
 
-| Job | Trigger | What it does |
-|---|---|---|
-| **test** | Every push & PR | Installs Ruby + Ceedling, runs `ceedling test:all` on host GCC |
-| **build** | After tests pass | Checks out with submodules, installs ARM GCC, builds firmware with CMake |
-| **release** | `v*` tags only | Downloads build artifacts, creates GitHub Release with `.elf`, `.hex`, `.bin` |
+| Job         | Trigger          | What it does                                                                  |
+| **test**    | Every push & PR  | Installs Ruby + Ceedling, runs `ceedling test:all` on host GCC                |
+| **build**   | After tests pass | Checks out with submodules, installs ARM GCC, builds firmware with CMake      |
+| **release** | `v*` tags only   | Downloads build artifacts, creates GitHub Release with `.elf`, `.hex`, `.bin` |
 
 ---
 
